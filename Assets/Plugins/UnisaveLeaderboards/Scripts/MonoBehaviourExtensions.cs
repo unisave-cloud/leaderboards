@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
+using Unisave.Facets;
+using Unisave.Leaderboards.Backend;
 
 namespace Unisave.Leaderboards
 {
@@ -8,7 +11,7 @@ namespace Unisave.Leaderboards
     public static class MonoBehaviourExtensions
     {
         /// <summary>
-        /// Work with the given leaderbaord
+        /// Work with the given leaderboard
         /// </summary>
         /// <param name="caller">
         /// The MonoBehaviour instance calling this API
@@ -23,13 +26,13 @@ namespace Unisave.Leaderboards
         ) => new LeaderboardRef(caller, leaderboard);
         
         /// <summary>
-        /// Represents a specific leaderboad and lets you
+        /// Represents a specific leaderboard and lets you
         /// perform actions with it
         /// </summary>
-        public struct LeaderboardRef
+        public class LeaderboardRef
         {
-            private MonoBehaviour caller;
-            private string leaderboard;
+            private readonly MonoBehaviour caller;
+            private readonly string leaderboard;
 
             public LeaderboardRef(MonoBehaviour caller, string leaderboard)
             {
@@ -37,17 +40,25 @@ namespace Unisave.Leaderboards
                 this.leaderboard = leaderboard;
             }
 
-            public void SubmitScore(string subject, double score)
+            public FacetCall SubmitScore(string subject, double score)
             {
-                // call dat facet
-                
-                // What is "better"? Needs to be server-side defined
+                return caller.CallFacet(
+                    (LeaderboardsFacet f) => f.SubmitScore(
+                        leaderboard, subject, score
+                    )
+                );
             }
 
-            public void GetTopScores(int take = 10, int skip = 0)
+            public FacetCall<List<LeaderboardRecord>> GetTopScores(
+                int take = 10,
+                int skip = 0
+            )
             {
-                // NOTE: sorting order needs to be server-side known
-                // otherwise inserts don't work
+                return caller.CallFacet(
+                    (LeaderboardsFacet f) => f.GetTopScores(
+                        leaderboard, skip, take
+                    )
+                );
             }
         }
     }
