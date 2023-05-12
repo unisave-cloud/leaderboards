@@ -6,6 +6,10 @@
 [Aa]ssets/Plugins/Unisave
 [Aa]ssets/Plugins/Unisave.meta
 
+# TMP asset
+[Aa]ssets/TextMesh Pro
+[Aa]ssets/TextMesh Pro.meta
+
 # Packages are not needed, not even the manifest
 /[Pp]ackages/
 

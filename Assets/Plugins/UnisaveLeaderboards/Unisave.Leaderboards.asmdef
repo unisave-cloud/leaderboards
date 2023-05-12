@@ -1,7 +1,9 @@
 {
     "name": "Unisave.Leaderboards",
+    "rootNamespace": "",
     "references": [
-        "Unisave"
+        "Unisave",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
